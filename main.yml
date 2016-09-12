@@ -7,5 +7,5 @@
   user: pi
   sudo: yes
   roles:
-    #- common
+    - common
     - lamp
