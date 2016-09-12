@@ -1,0 +1,20 @@
+# # # file: tasks/user.yml
+
+# Update bash-shell #
+- name: common | bash_prf
+  copy: 
+    dest: "/home/pi/.{{ item }}"
+    src: "{{ item }}"
+    owner: pi
+    group: pi
+    mode: 0644
+  with_items: common.bash_prf
+
+# Copy vim config
+- name: common | vim config
+  copy: 
+    dest: /home/pi/.vimrc
+    src: vimrc
+    owner: pi
+    group: pi
+    mode: 0644

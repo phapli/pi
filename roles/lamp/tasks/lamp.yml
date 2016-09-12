@@ -1,0 +1,10 @@
+# # # file: tasks/lamp.yml
+
+# ---
+# install pkgs #
+- name: Add lamp stack package
+  apt: 
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    lamp.install_pkgs

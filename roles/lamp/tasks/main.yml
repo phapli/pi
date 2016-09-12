@@ -1,0 +1,4 @@
+# file: tasks/main.yml
+
+---
+- include: lamp.yml

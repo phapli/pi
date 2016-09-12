@@ -1,0 +1,56 @@
+# file: defaults/main.yml
+
+---
+common:
+  remove_pkgs:
+    - scratch
+    - penguinspuzzle
+    - omxplayer
+    - xserver*
+    - x11*
+    - xarchiver
+    - xauth
+    - xkb-data
+    - console-setup
+    - xinit
+    - lightdm
+    - lxde*
+    - python-tk
+    - python3-tk
+    - gtk*
+    - libgtk*
+    - openbox
+    - libxt*
+    - lxpanel
+    - gnome*
+    - libqt*
+    - libxcb*
+    - libxfont*
+    - lxmenu*
+    - gvfs*
+    - xdg-*
+    - desktop*
+    - shared-mime-info
+    - gsfonts
+    - parted
+    - samba*
+
+
+  install_pkgs:
+    - most
+    - screen
+    - tmux
+    - ncdu
+    - htop
+    - iftop
+    - unzip
+    - unrar-free
+    - ufw
+    - wget
+    - curl
+    - vim
+
+  bash_prf:
+    - bashrc
+    - bash_profile
+

@@ -1,0 +1,33 @@
+# generate by ansible
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias du='du -sch'
+
+alias ping='ping -c 5'
+alias pong='ping google.com.vn'
+
+alias ls='ls --color=auto'
+alias ll='ls -l'
+alias l='ls -l'
+alias lll='ls -l'
+alias p='curl httpbin.org/ip'
+alias pv='pv -peafbt'
+
+alias r='openssl rand -base64 15'
+
+complete -cf sudo
+complete -cf man
+
+export HISTTIMEFORMAT="%F %T "
+export HISTSIZE=999999
+export HISTFILESIZE=999999999
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi

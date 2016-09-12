@@ -1,0 +1,129 @@
+# # # file: tasks/common.yml
+
+# ---
+# install pkgs #
+
+- name: Remove tons of X11 stuff no longer needed
+  apt: 
+    name: "{{ item }}"
+    state: absent 
+    purge: yes
+  with_items: common.remove_pkgs
+
+- name: Autoremove any unused packages.
+  shell: "apt-get autoremove --assume-yes --purge"
+  sudo: yes
+
+- name: Let's Autoclean the system.
+  shell: "apt-get autoclean --assume-yes"
+  sudo: yes
+
+- name: Delete large test video
+  file: 
+    path: "/opt/vc/src/hello_pi/hello_video/test.h264"
+    state: absent
+
+- name: Upgrade System
+  apt: 
+    update_cache: yes 
+    cache_valid_time: 3600 
+    upgrade: dist
+
+- name: Add commonly needed programs
+  apt: 
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    common.install_pkgs
+
+# timezone #
+- name: common | timezone
+  file: 
+    dest: /etc/localtime
+    src: /usr/share/zoneinfo/Asia/Ho_Chi_Minh
+    state: link
+    force: yes
+    owner: root
+    group: root
+
+# Hostname #
+- name: common | hostname (pt. 1) - hostname cmd
+  hostname:
+    name: "{{ inventory_hostname_short }}"
+
+- name: common | hostname (pt. 2) - (/etc/hostname)
+  copy:
+    content: "{{ inventory_hostname_short }}{{'\n'}}"
+    dest: /etc/hostname
+    owner: root
+    group: root
+    mode: 0644
+
+- name: common | IPv4 hostname (pt. 3) - (/etc/hosts)
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^127.0.0.1"
+    line: "127.0.0.1{{'\t'}}{{ inventory_hostname }}{% if inventory_hostname != inventory_hostname_short %}{{'\t'}}{{inventory_hostname_short}}{% endif %}{{'\t'}}"
+    state: present
+
+# Update bash-shell #
+- name: common | bash_prf
+  copy: 
+    dest: "/root/.{{ item }}"
+    src: "{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: common.bash_prf
+
+# Copy vim config
+- name: common | vim config
+  copy: 
+    dest: /root/.vimrc
+    src: vimrc
+    owner: root
+    group: root
+    mode: 0644
+
+# Create directory for compile pkgs
+- name: common | mkdir dir
+  file: 
+    path: "{{ dir_src }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+# Set limits open file (socket)
+- name: common | limits
+  copy:
+    dest: /etc/security/limits.conf
+    src: limits.conf
+    owner: root
+    group: root
+    mode: 0644
+
+# tuning sysctl
+- name: common | sysctl
+  copy:
+    dest: /etc/sysctl.conf
+    src: sysctl.conf
+    owner: root
+    group: root
+    mode: 0644
+
+# Add crontab sync time
+- name: common | ntpdate
+  cron:
+    name: "Time for server"
+    hour: "*"
+    minute: "0"
+    job: "/usr/sbin/ntpdate 0.asia.pool.ntp.org >> /var/log/ntpdate.log 2>&1"
+
+# Add Crontab hwtime
+- name: common | hwclock
+  cron:
+    name: "hwclock for server"
+    hour: "*"
+    minute: "0"
+    job: "/sbin/hwclock --systohc >/dev/null 2>&1"

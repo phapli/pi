@@ -1,0 +1,9 @@
+asb
+---
+
+Ansible for lazy sysadmin
+-------------------------
+Run
+
+  ~$ # main role
+  ~$ ansible-playbook -i hosts main.yml -vvvv

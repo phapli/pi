@@ -1,0 +1,5 @@
+# file: tasks/main.yml
+
+---
+- include: common.yml
+- include: user.yml

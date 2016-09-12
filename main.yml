@@ -1,0 +1,11 @@
+---
+# This playbook deploys the whole application stack in this site.  
+# Playbook for main
+
+- name: ok
+  hosts: pi
+  user: pi
+  sudo: yes
+  roles:
+    #- common
+    - lamp

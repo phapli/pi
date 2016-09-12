@@ -1,0 +1,11 @@
+## Change {{ inventory_hostname }} or {{ inventory_hostname_short }} to new role.
+## Ex:
+
+# - install mysql role
+# -> change to -> d01.mysql.local ansible_ssh_host=10.20.30.101
+
+# - install nginx role
+# -> change to -> w01.app.local ansible_ssh_host=10.20.30.101
+
+[pi]
+raspberrypi ansible_ssh_host=1.2.3.4
